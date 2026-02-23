@@ -1,12 +1,18 @@
 import java.util.*;
 
-public class FileStore {
-    private final Map<String, String> files = new HashMap<>();
+public class FileStore implements InvoiceStore {
 
-    public void save(String name, String content) { files.put(name, content); }
-    public int countLines(String name) {
-        String c = files.getOrDefault(name, "");
-        if (c.isEmpty()) return 0;
-        return c.split("\n").length;
+    private final Map<String, String> storage = new HashMap<>();
+
+    @Override
+    public void save(String invoiceId, String content) {
+        storage.put(invoiceId, content);
+    }
+
+    @Override
+    public int countLines(String invoiceId) {
+        String text = storage.get(invoiceId);
+        if (text == null) return 0;
+        return text.split("\n").length;
     }
 }
